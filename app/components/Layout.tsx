@@ -21,8 +21,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <nav className="flex gap-2 sm:gap-3">
               {navItems.map((item) => (
                 <Link
-                  key={item.path}
-                  href={item.path}
+                  key={ item.path }
+                  href={ item.path }
                   className={`
                     px-6 sm:px-8 py-3 sm:py-4
                     rounded-lg
@@ -60,7 +60,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        {children}
+        { children }
       </main>
     </div>
   );

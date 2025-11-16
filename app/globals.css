@@ -1,8 +1,44 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: 0 0% 92.5%;
+  --foreground: 210 11% 15%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 210 11% 15%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 210 11% 15%;
+
+  --primary: 224 76% 48%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 210 11% 15%;
+
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 215 16.3% 46.9%;
+
+  --accent: 224 76% 55%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 224 76% 48%;
+
+  --radius: 0.5rem;
+
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
 }
 
 @theme inline {
@@ -36,36 +72,6 @@ border-radius: 0.75rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.sub-boxes {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  color: black;
-}
-
-.img-circle {
-  background: transparent url(../public/user.png);
-  background-size: cover;
-  border-width: 2px;
-  border-color: #9c9c9c;
-  background-position: center;
-  box-shadow: 1px 3px 4px 1px #616161;
-}
-
-@media (max-width: 640px) {
-}
-
-.home-container {
-border-radius: 0.75rem;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height:280px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
@@ -85,7 +91,4 @@ border-radius: 0.75rem;
   border-color: #9c9c9c;
   background-position: center;
   box-shadow: 1px 3px 4px 1px #616161;
-}
-
-@media (max-width: 640px) {
 }

@@ -16,7 +16,7 @@ export default function Home() {
 
 
   const safePoints = points ?? 0;
-const safeTotalRecycled = totalRecycled ?? 0;
+  const safeTotalRecycled = totalRecycled ?? 0;
 
 
 
@@ -86,7 +86,7 @@ const safeTotalRecycled = totalRecycled ?? 0;
 
   return (
     <Layout>
-      <div className="flex flex-col items-center gap-6 pt-4">
+      <div className="flex flex-col items-center gap-6 pt-4"></div>
 
       {/* Points Card */}
         <div className="w-full max-w-md flex flex-col gap-6">

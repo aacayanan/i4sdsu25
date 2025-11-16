@@ -1,5 +1,4 @@
 "use client";
-
 import Layout from "./components/Layout";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -96,6 +95,7 @@ const safeTotalRecycled = totalRecycled ?? 0;
               <div className="text-7xl sm:text-8xl font-medium text-black mb-6">
                 {points}
               </div>
+              <div className="text-md sm:text-base font-semibold font-medium text-black">
               <div className="text-md sm:text-base font-semibold font-medium text-black">
                 Points Earned
               </div>

@@ -13,7 +13,7 @@ const MAX_POINTS = 100;
 export default function Home() {
   const router = useRouter();
 
-  const [ points, setPoints ] = useState<number | null>(null);
+  const [ points, setPoints ] = useState<number>(0);
   const [ progress, setProgress ] = useState<number>(0);
   const [ totalRecycled, setTotalRecycled ] = useState<number | null>(null);
 
@@ -78,26 +78,13 @@ export default function Home() {
   }, []);
 
   // Progress bar logic
-  const progressPercent = Math.min(100, (safePoints / MAX_POINTS) * 100);
-  const progressColor = `rgb(${Math.min(200 + safePoints * 1.1, 255)}, ${
+  const progressPercent = Math.min(100, (progress / MAX_POINTS) * 100);
+  const progressColor = `rgb(${Math.min(200 + points * 1.1, 255)}, ${
     Math.max(200 - safePoints * 4, 0)
   }, ${Math.max(200 - safePoints * 4, 0)})`;
 
   const goToRewards = async () => {
     router.push("/rewards?redeem=true");
-    
-
-    // if (safePoints >= MAX_POINTS) {
-    //   const { error } = await supabase
-    //   .from("trash_total")
-    //   .update({ total_points: 0 })
-    //   .eq("user_id", USERNAME); // <-- Make sure user_id is correct
-    
-    //   if (error) {
-    //     console.log("Error resetting points:", error);
-    //     return;
-    //   }
-    // }
   };
 
   return (
@@ -135,8 +122,12 @@ export default function Home() {
 
         {/* Redeem Progress Bar/Button */}
           <div className={`relative w-full h-12 rounded-lg cursor-pointer overflow-hidden shadow-md mt-4 ${
-              safePoints >= MAX_POINTS ? "hover:brightness-110" : "cursor-not-allowed" }`}
-              onClick={ goToRewards }>
+              progress >= MAX_POINTS ? "hover:brightness-110" : "cursor-not-allowed" }`}
+              onClick={() => { 
+                if (progress >=  MAX_POINTS) {
+                  goToRewards()
+                }
+              }}>
             <div className="absolute top-0 left-0 h-full w-full rounded-lg"
               style={{ backgroundColor: "rgba(255, 255, 255, 0.2)" }}>
             </div>

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import defPfpLogo from ".../public/defaultPfp.jpg";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -10,11 +9,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const navItems = [
     { label: "Home", path: "/" },
     { label: "About", path: "/about" },
-    { label: "Friends", path: "/friends" },
+    { label: "Rewards", path: "/rewards" },
   ];
 
   return (
-    <div className="min-h-screen bg-[#ECECEC]">
+    <div className="min-h-screen bg-[#FFF]">
       <header className="bg-[#ECECEC] border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-28 sm:h-32">
@@ -48,19 +47,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 alt="SDSU"
                 className="h-6 sm:h-8 w-auto"
               />
-              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg sm:text-xl shadow-lg">
-                <img
-                    src="../public/defaultPfp.jpg"
-                    // alt="Default Profile Picture"
-                />
+              <div className="img-circle w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg sm:text-xl shadow-lg">
               </div>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        { children }
+      <main className="h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {children}
       </main>
     </div>
   );

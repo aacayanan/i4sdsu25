@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { PlusCircledIcon, CheckCircledIcon, ClipboardCopyIcon } from '@radix-ui/react-icons';
 
 interface RewardItemProps {
@@ -10,12 +11,18 @@ interface RewardItemProps {
     isClaimed?: boolean;
   };
   onAddClick: () => void;
+  showRedeemedButton?: boolean;
+  showBottomSection?: boolean;
 }
 
-const RewardItems: React.FC<RewardItemProps> = ({ rewardData, onAddClick}) => {
+const RewardItems: React.FC<RewardItemProps> = ({ rewardData, onAddClick, showRedeemedButton, showBottomSection }) => {
+  const router = useRouter();
+
   const handleCopyCode = () => {
     navigator.clipboard.writeText(rewardData.hiddenDiscountCode);
     alert('Discount code copied to clipboard!');
+
+    router.push('/');
   };
 
   return (
@@ -38,12 +45,14 @@ const RewardItems: React.FC<RewardItemProps> = ({ rewardData, onAddClick}) => {
                     <p className="text-sm font-bold text-green-600">
                         Code: { rewardData.hiddenDiscountCode }
                     </p>
-                    <button
+                    { showRedeemedButton &&
+                      <button
                         onClick={ handleCopyCode }
                         className="flex items-center gap-2 text-xs text-blue-600 hover:text-blue-800 ml-4">
                         <ClipboardCopyIcon className="icon w-3 h-3" />
                         Copy
-                    </button>
+                      </button>
+                    }
                 </div>
             ) : (
                 <p className="text-sm text-gray-600">{ rewardData.rewardDescription }</p>
@@ -53,29 +62,27 @@ const RewardItems: React.FC<RewardItemProps> = ({ rewardData, onAddClick}) => {
       {/* END MID SECTION */}
 
       {/* BOTTOM SECTION */}
-      <div className="bottom-container flex">
-        <button
-          onClick={ onAddClick }
-          disabled={ rewardData.isClaimed } 
-          className={`sub-boxes w-20 h-10 rounded-bl-lg flex items-center justify-center text-sm font-medium ${
-            rewardData.isClaimed 
-            ? 'bg-gray-400 cursor-not-allowed' 
-            : 'bg-gray-300 hover:bg-gray-400'
-          }`}
-        >
-          {rewardData.isClaimed ? (
+      {showBottomSection && (
+        <div className="bottom-container flex">
+          <button
+            onClick={ onAddClick }
+            disabled={ rewardData.isClaimed } 
+            className={`sub-boxes w-20 h-10 rounded-bl-lg flex items-center justify-center text-sm font-medium ${
+              rewardData.isClaimed ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-300 hover:bg-gray-400' }`}>
+            {rewardData.isClaimed ? (
             <CheckCircledIcon className="w-5 h-5 text-white" />
-          ) : (
+            ) : (
             <PlusCircledIcon className="w-5 h-5" />
-          )}
-          { rewardData.isClaimed ? 'CLAIMED' : '' }
-        </button>
-        <div className={`sub-boxes flex-1 rounded-br-lg h-10 items-center p-4 ${ rewardData.isClaimed ? 'bg-green-100' : 'bg-gray-100' }`}>
-          <p className={`text-xs ${ rewardData.isClaimed ? 'text-green-800 font-semibold' : 'text-gray-500' }`}>
-            {rewardData.isClaimed ? 'Code revealed above.' : 'Tap the ADD icon to claim this reward.'}
-          </p>
+            )}
+            { rewardData.isClaimed ? 'CLAIMED' : '' }
+          </button>
+          <div className={`sub-boxes flex-1 rounded-br-lg h-10 items-center p-4 ${ rewardData.isClaimed ? 'bg-green-100' : 'bg-gray-100' }`}>
+            <p className={`text-xs ${ rewardData.isClaimed ? 'text-green-800 font-semibold' : 'text-gray-500' }`}>
+              {rewardData.isClaimed ? 'Code revealed above.' : 'Tap the ADD icon to claim this reward.'}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
       {/* END BOTTOM SECTION */}
     </div>
   );

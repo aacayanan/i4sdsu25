@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import { useState } from 'react';
 import RewardItems from "../lib/rewardItems";
 import RewardConfirm from "../lib/rewardConfirm";
+import { useSearchParams } from "next/navigation";
 
 interface Reward {
   id: number;
@@ -15,7 +16,10 @@ interface Reward {
 }
 
 export default function Rewards() {
-//Sample Rewards Data
+  const searchParams = useSearchParams();
+  const redeemMode = searchParams.get("redeem") === "true";
+
+  //Sample Rewards Data
   const sampleReward: Reward[] = [
     {
       id: 1,
@@ -91,8 +95,13 @@ const handleAddClick = (id: number) => {
             { rewards.map((reward) => (
               <div key={ reward.id } className="mb-4 last:mb-0">
                 <RewardItems
-                  rewardData= { reward }
+                  rewardData= {{
+                    ...reward,
+                    isClaimed: reward.isClaimed
+                  }}
                   onAddClick={() => handleAddClick(reward.id)}
+                  showRedeemedButton={ true }
+                  showBottomSection={ redeemMode}
                 />
               </div>
             ))}

@@ -33,6 +33,7 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env
 .env.*
+scripts/.env
 
 # vercel
 .vercel
@@ -46,3 +47,7 @@ next-env.d.ts
 .vscode
 *.swp
 *.swo
+
+/scripts/models
+/scripts/runs
+/scripts/yolo-Weights

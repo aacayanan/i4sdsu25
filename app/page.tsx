@@ -14,6 +14,7 @@ export default function Home() {
   const router = useRouter();
 
   const [ points, setPoints ] = useState<number | null>(null);
+  const [ progress, setProgress ] = useState<number>(0);
   const [ totalRecycled, setTotalRecycled ] = useState<number | null>(null);
 
 
@@ -48,6 +49,12 @@ export default function Home() {
         .eq("user_id", profile.id)
         .single();
 
+      const { data: progressPoints, error: progressError } = await supabase
+        .from("trash_total")
+        .select("progress_points")
+        .eq("user_id", profile.id)
+        .single();
+
       if (trashError) {
         console.log("Trash fetch error:", trashError);
         return;
@@ -63,7 +70,8 @@ export default function Home() {
 
       // Points = total recycled × 5
       const calculatedPoints = total * POINTS_PER_ITEM;
-      setPoints(totalPoints?.total_points);
+      setProgress(progressPoints?.progress_points);
+      setPoints(totalPoints?.total_points ?? 0);
     }
 
     loadData();
@@ -103,7 +111,7 @@ export default function Home() {
                 {points}
               </div>
               <div className="text-md sm:text-base font-semibold font-medium text-black">
-                Points Earned
+                Lifetime Points Earned
               </div>
             </div>
           </div>
@@ -143,7 +151,7 @@ export default function Home() {
 
           {/* Overlay text */}
           <div className="absolute inset-0 flex items-center justify-center font-bold text-white z-10 pointer-events-none">
-            {safePoints >= MAX_POINTS ? "Redeem Reward" : `${ points }/${ MAX_POINTS } Points`}
+            {progress >= MAX_POINTS ? "Redeem Reward" : `${ progress }/${ MAX_POINTS } Points`}
           </div>
         </div>
       </div>

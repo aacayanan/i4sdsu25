@@ -31,6 +31,8 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
+.env
+.env.*
 scripts/.env
 
 # vercel
@@ -40,8 +42,11 @@ scripts/.env
 *.tsbuildinfo
 next-env.d.ts
 
+#IDE
 .idea
 .vscode
+*.swp
+*.swo
 
 /scripts/models
 /scripts/runs

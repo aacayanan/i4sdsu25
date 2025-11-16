@@ -11,25 +11,32 @@ class RecyclingDB:
         """Add points to user's total."""
         # Get current points
         user = self.client.table("trash_total").select("total_points").eq("user_id", user_id).execute()
+        progress = self.client.table("trash_total").select("progress_points").eq("user_id", user_id).execute()
 
         if user.data:
             current_points = user.data[0].get("total_points", 0)
+            progress_points = progress.data[0].get("progress_points", 0)
             new_total = current_points + points_to_add
+            progress_new_total = progress_points + points_to_add
             print(f"[INFO] CURRENT POINTS: {current_points}")
             print(f"[INFO] NEW TOTAL POINTS: {new_total}")
+            print(f"[INFO] CURRENT PROGRESS: {progress_points}")
+            print(f"[INFO] NEW PROGRESS: {progress_new_total}")
         else:
             # Create new user if doesn't exist
             new_total = points_to_add
             self.client.table("trash_total").insert({
                 "user_id": user_id,
                 "total_points": new_total,
+                "progress_points": 5,
                 "recycled": 0,
             }).execute()
             return
 
         # Update points
         self.client.table("trash_total").update({
-            "total_points": new_total
+            "total_points": new_total,
+            "progress_points": progress_new_total
         }).eq("user_id", user_id).execute()
 
 

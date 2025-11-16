@@ -1,10 +1,11 @@
 "use client";
 
 import Layout from "../components/Layout";
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import RewardItems from "../lib/rewardItems";
 import RewardConfirm from "../lib/rewardConfirm";
 import { useSearchParams } from "next/navigation";
+import {supabase} from "@/app/lib/supabase";
 
 interface Reward {
   id: number;
@@ -61,9 +62,32 @@ const handleAddClick = (id: number) => {
   setIsModalOpen(true);
 };
 
-  const handleConfirmAdd = () => {
+const USERNAME = "green_guru";
+const POINTS_PER_ITEM = 5;
+const MAX_POINTS = 100;
+
+  const handleConfirmAdd = async () => {
     if (selectedRewardId !== null) {
       const confirmedText = '✅ Claimed! Check your app for details.';
+
+      //Get user
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("username", USERNAME)
+        .single();
+
+      if (profileError || !profile) {
+        console.log("Profile fetch error:", profileError);
+        return;
+      }
+
+      // supabase reset progress
+      const { data: progressPoints, error: progressError } = await supabase
+        .from("trash_total")
+        .update({ progress_points: 0 })
+        .eq("user_id", profile.id);
+
       setRewards(prevRewards =>
         prevRewards.map(reward =>
           reward.id === selectedRewardId

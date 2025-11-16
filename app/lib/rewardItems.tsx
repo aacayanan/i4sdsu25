@@ -1,8 +1,9 @@
 import React from 'react';
+import { PlusCircledIcon } from '@radix-ui/react-icons';
 
 // Define a type/interface for the props the component will accept
 interface RewardItemProps {
-  icon: React.ReactNode;
+  icon: string;
   title: string;
   rewardDescription: string;
   onAddClick: () => void;
@@ -20,12 +21,12 @@ const RewardItem: React.FC<RewardItemProps> = ({
       {/* TOP SECTION */}
       <div className="top-container flex">
         {/* Left square */}
-        <div className="sub-boxes flex items-center justify-center w-20 h-20 bg-gray-200 rounded-tl-lg">
-          { icon }
+        <div className="sub-boxes w-20 h-20 bg-gray-200 rounded-tl-lg">
+          <img className="bg-center rounded-tl-lg bg-contain"src={ icon } alt={ title } />
         </div>
 
         {/* Right long bar */}
-        <div className="sub-boxes flex-1 bg-gray-100 rounded-tr-lg h-20 flex items-center p-4">
+        <div className="sub-boxes flex-1 bg-gray-100 rounded-tr-lg h-20 p-4">
           <h2 className="text-lg font-semibold">{ title }</h2>
         </div>
       </div>
@@ -34,12 +35,11 @@ const RewardItem: React.FC<RewardItemProps> = ({
       <div className="bottom-container flex">
         <button
           onClick={ onAddClick }
-          className="sub-boxes w-20 h-10 bg-gray-300 hover:bg-gray-400 rounded-bl-lg flex items-center justify-center text-sm font-medium"
-        >
-          ADD
+          className="sub-boxes w-20 h-10 bg-gray-10 hover:bg-gray-400 cursor-pointer rounded-bl-lg text-sm font-medium">
+          <PlusCircledIcon width={ 30 } height={ 30 } />
         </button>
-        <div className="sub-boxes flex-1 bg-gray-100 rounded-br-lg h-10 flex items-center p-4">
-          <p className="text-xs text-gray-500">{ rewardDescription }</p>
+        <div className="sub-boxes flex-1 bg-gray-100 rounded-br-lg h-10 p-4">
+          <p className="text-m text-black">{ rewardDescription }</p>
         </div>
       </div>
       {/* END BOTTOM SECTION */}

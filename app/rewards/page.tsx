@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "../components/Layout";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import RewardItems from "../lib/rewardItems";
 import RewardConfirm from "../lib/rewardConfirm";
 
@@ -29,29 +29,29 @@ const handleAddClick = (id: number, title: string) => {
     setIsConfirmed({ id: null, title: '' });
   };
 
-
+  //Sample Rewards Data
   const sampleReward = [
     {
       id: 1,
-      icon: '/public/bcbLogo.png',
+      icon: '/bcbLogo.png',
       title: 'BCB Coffee',
       rewardDescription:'Get 10% off any medium sized coffee/tea or pastries.'
     },
     {
       id: 2,
-      icon: '/public/pandaLogo.png',
+      icon: '/pandaLogo.png',
       title: 'Panda Express',
-      rewardDescription: 'Get a free appetizer with any entree purchase.'
+      rewardDescription: 'Get a free appetizer with any entree purchased.'
     },
     {
       id: 3,
-      icon: '/public/starbucksLogo.png',
+      icon: '/starbucksLogo.jpg',
       title: 'Starbucks',
       rewardDescription: 'Earn double stars on your next purchase.'
     },
     {
       id: 4,
-      icon: '/public/habitgrillLogo.png',
+      icon: '/habitGrillLogo.jpeg',
       title: 'Habit Grill',
       rewardDescription: 'Get a free side with any combo meal.'
     }
@@ -72,9 +72,9 @@ const handleAddClick = (id: number, title: string) => {
             { sampleReward.map((reward) => (
               <div key={ reward.id } className="mb-4 last:mb-0">
                 <RewardItems
-                  icon={reward.icon}
-                  title={reward.title}
-                  rewardDescription={reward.rewardDescription}
+                  icon={ reward.icon }
+                  title={ reward.title }
+                  rewardDescription={ reward.rewardDescription }
                   onAddClick={() => handleAddClick(reward.id, reward.title)}
                 />
               </div>

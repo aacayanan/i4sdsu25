@@ -57,6 +57,10 @@
   }
 }
 
+main {
+  background: url("../public/backgroundImg.png");
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -79,6 +83,16 @@ border-radius: 0.75rem;
   text-align: center;
   align-items: center;
   color: black;
+}
+
+.sub-boxes-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #fff url("../public/addLogo.png");
+  background-size: contain;
+  background-position: center;
 }
 
 .img-circle {

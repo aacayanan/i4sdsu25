@@ -2,11 +2,44 @@ from ultralytics import YOLO
 import cv2
 import numpy as np
 
-# Load your trained weights (custom with classes ['recycle','trash'])
-# model = YOLO("yolov8n.pt")
-model = YOLO(r"C:\Users\aacay\Documents\Code\innovate4sdsu\scripts\runs\detect\train4\weights\best.pt")
-model_conf = 0.05
+model = YOLO(r"C:\Users\aacay\Documents\Code\innovate4sdsu\scripts\runs\detect\train16\weights\best.pt")
+model_conf = 0.5
 print("[INFO] Model classes:", model.names)
+
+# --- Recycling grouping ---
+RECYCLE = {
+    "aluminum can", "aluminum caps", "cardboard", "cellulose", "foil",
+    "glass bottle", "iron utensils", "milk bottle", "paper", "paper bag",
+    "paper shavings", "printing industry", "scrap metal", "tin", "paper cups",
+    "plastic bag", "plastic bottle", "plastic can", "plastic canister", "plastic caps",
+    "plastic cup", "plastic shaker", "plastic shavings", "plastic toys"
+}
+
+SPECIAL = {
+    "aerosols", "container for household chemicals", "electronics",
+    "metal shavings", "tetra pack"
+}
+
+TRASH = {
+    "ceramic", "combined plastic", "disposable tableware", "furniture",
+    "liquid", "organic", "papier mache", "postal packaging",
+    "stretch film", "textile", "unknown plastic",
+    "wood", "zip plastic bag"
+}
+
+COLOR_RECYCLE = (0, 200, 0)     # green
+COLOR_TRASH = (0, 0, 255)       # red
+COLOR_SPECIAL = (0, 200, 255)   # yellow/cyan
+
+def classify_bin(class_name: str):
+    n = class_name.strip().lower()
+    if n in RECYCLE:
+        return "Recycle", COLOR_RECYCLE
+    if n in SPECIAL:
+        return "Special", COLOR_SPECIAL
+    # default to Trash if unknown
+    return "Trash", COLOR_TRASH
+
 
 # Motion setup
 fgbg = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=64, detectShadows=True)
@@ -81,9 +114,9 @@ while True:
                 best = (conf, x1, y1, x2, y2, name)
 
     if best is not None:
-        # YOLO path
         conf, x1, y1, x2, y2, name = best
-        draw_labeled_box(img, x1, y1, x2, y2, f"{name} {conf:.2f}", (0, 200, 255))
+        tag, color = classify_bin(name)
+        draw_labeled_box(img, x1, y1, x2, y2, f"{tag}: {name} {conf:.2f}", color)
         cv2.imshow("Webcam", img)
     else:
         # motion path (unchanged) ...

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function Home() {
   const router = useRouter();
 
-  const [points, setPoints] = useState(0);
+  const [ points, setPoints ] = useState(0);
   const maxPoints = 50;
 
   const addPoints = () => {

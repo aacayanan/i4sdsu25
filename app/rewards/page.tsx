@@ -53,7 +53,8 @@ export default function Rewards() {
 
 const [ rewards, setRewards ] = useState<Reward[]>(sampleReward);
 const [ isModalOpen, setIsModalOpen ] = useState(false);
-const [selectedRewardId, setSelectedRewardId] = useState<number | null>(null);
+const [ selectedRewardId, setSelectedRewardId ] = useState<number | null>(null);
+const [ hasClaimed, setHasClaimed ] = useState(false);
 
 const handleAddClick = (id: number) => {
   setSelectedRewardId( id );
@@ -70,6 +71,7 @@ const handleAddClick = (id: number) => {
             : reward
         )
       );
+      setHasClaimed(true);
     }
     closeModal();
   };
@@ -92,8 +94,10 @@ const handleAddClick = (id: number) => {
           
           {/* Use the new component here */}
           <div className="bg-white rounded-xl p-4 shadow-sm">
-            { rewards.map((reward) => (
-              <div key={ reward.id } className="mb-4 last:mb-0">
+            { rewards.map((reward) => {
+              const isThisClaimed = reward.isClaimed === true;
+              return (
+                <div key={ reward.id } className="mb-4 last:mb-0">
                 <RewardItems
                   rewardData= {{
                     ...reward,
@@ -101,10 +105,11 @@ const handleAddClick = (id: number) => {
                   }}
                   onAddClick={() => handleAddClick(reward.id)}
                   showRedeemedButton={ true }
-                  showBottomSection={ redeemMode}
+                  showBottomSection={ redeemMode && (isThisClaimed || !hasClaimed)}
                 />
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>

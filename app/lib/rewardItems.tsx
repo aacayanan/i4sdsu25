@@ -1,51 +1,84 @@
 import React from 'react';
-import { PlusCircledIcon } from '@radix-ui/react-icons';
+import { PlusCircledIcon, CheckCircledIcon, ClipboardCopyIcon } from '@radix-ui/react-icons';
 
-// Define a type/interface for the props the component will accept
 interface RewardItemProps {
-  icon: string;
-  title: string;
-  rewardDescription: string;
+  rewardData: {
+    icon: string;
+    title: string;
+    rewardDescription: string;
+    hiddenDiscountCode: string;
+    isClaimed?: boolean;
+  };
   onAddClick: () => void;
 }
 
-const RewardItem: React.FC<RewardItemProps> = ({
-  icon,
-  title,
-  rewardDescription,
-  onAddClick,
-}) => {
+const RewardItems: React.FC<RewardItemProps> = ({ rewardData, onAddClick}) => {
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(rewardData.hiddenDiscountCode);
+    alert('Discount code copied to clipboard!');
+  };
+
   return (
-    // Container for top + bottom
     <div className="flex flex-col border border-gray-200 rounded-xl shadow-sm">
       {/* TOP SECTION */}
       <div className="top-container flex">
-        {/* Left square */}
-        <div className="sub-boxes w-20 h-20 bg-gray-200 rounded-tl-lg">
-          <img className="bg-center rounded-tl-lg bg-contain"src={ icon } alt={ title } />
+        <div className="sub-boxes flex items-center justify-center w-20 h-20 bg-gray-200 rounded-tl-lg">
+          <img src={ rewardData.icon } alt={ rewardData.title } className="w-full h-full object-cover rounded-tl-lg" />
         </div>
-
-        {/* Right long bar */}
-        <div className="sub-boxes flex-1 bg-gray-100 rounded-tr-lg h-20 p-4">
-          <h2 className="text-lg font-semibold">{ title }</h2>
+        <div className="sub-boxes flex-1 bg-gray-100 rounded-tr-lg h-20 flex items-center p-4">
+          <h2 className="text-xl font-semibold">{ rewardData.title }</h2>
         </div>
       </div>
+
+      {/* MID SECTION */}
+      <div className="mid-container flex">
+        <div className="sub-boxes flex-1 bg-gray-100 h-11 text-m p-4">
+            {rewardData.isClaimed ? (
+                <div className="flex items-center justify-between">
+                    <p className="text-sm font-bold text-green-600">
+                        Code: { rewardData.hiddenDiscountCode }
+                    </p>
+                    <button
+                        onClick={ handleCopyCode }
+                        className="flex items-center gap-2 text-xs text-blue-600 hover:text-blue-800 ml-4">
+                        <ClipboardCopyIcon className="icon w-3 h-3" />
+                        Copy
+                    </button>
+                </div>
+            ) : (
+                <p className="text-sm text-gray-600">{ rewardData.rewardDescription }</p>
+            )}
+        </div>
+      </div>
+      {/* END MID SECTION */}
 
       {/* BOTTOM SECTION */}
       <div className="bottom-container flex">
         <button
           onClick={ onAddClick }
-          className="sub-boxes w-20 h-10 bg-gray-10 hover:bg-gray-400 cursor-pointer rounded-bl-lg text-sm font-medium">
-          <PlusCircledIcon width={ 30 } height={ 30 } />
+          disabled={ rewardData.isClaimed } 
+          className={`sub-boxes w-20 h-10 rounded-bl-lg flex items-center justify-center text-sm font-medium ${
+            rewardData.isClaimed 
+            ? 'bg-gray-400 cursor-not-allowed' 
+            : 'bg-gray-300 hover:bg-gray-400'
+          }`}
+        >
+          {rewardData.isClaimed ? (
+            <CheckCircledIcon className="w-5 h-5 text-white" />
+          ) : (
+            <PlusCircledIcon className="w-5 h-5" />
+          )}
+          { rewardData.isClaimed ? 'CLAIMED' : '' }
         </button>
-        <div className="sub-boxes flex-1 bg-gray-100 rounded-br-lg h-10 p-4">
-          <p className="text-m text-black">{ rewardDescription }</p>
+        <div className={`sub-boxes flex-1 rounded-br-lg h-10 items-center p-4 ${ rewardData.isClaimed ? 'bg-green-100' : 'bg-gray-100' }`}>
+          <p className={`text-xs ${ rewardData.isClaimed ? 'text-green-800 font-semibold' : 'text-gray-500' }`}>
+            {rewardData.isClaimed ? 'Code revealed above.' : 'Tap the ADD icon to claim this reward.'}
+          </p>
         </div>
       </div>
       {/* END BOTTOM SECTION */}
     </div>
-    // END Container for top + bottom
   );
 };
 
-export default RewardItem;
+export default RewardItems;

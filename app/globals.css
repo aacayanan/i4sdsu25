@@ -1,8 +1,6 @@
 @import "tailwindcss";
 
 :root {
-  /* --background: #ffffff;
-  --foreground: #171717; */
   --background: 0 0% 92.5%;
   --foreground: 210 11% 15%;
 
@@ -83,16 +81,6 @@ border-radius: 0.75rem;
   text-align: center;
   align-items: center;
   color: black;
-}
-
-.sub-boxes-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background: #fff url("../public/addLogo.png");
-  background-size: contain;
-  background-position: center;
 }
 
 .img-circle {

@@ -42,11 +42,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </nav>
 
             <div className="flex items-center gap-3 sm:gap-4">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/San_Diego_State_University_logo.svg/320px-San_Diego_State_University_logo.svg.png"
-                alt="SDSU"
-                className="h-6 sm:h-8 w-auto"
-              />
               <div className="img-circle w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg sm:text-xl shadow-lg">
               </div>
             </div>

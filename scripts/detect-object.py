@@ -13,7 +13,7 @@ except Exception as e:
     print(f"[WARNING] Database connection failed: {e}.")
     db = None
 
-model = YOLO(r"C:\Users\aacay\Documents\Code\innovate4sdsu\scripts\runs\detect\train16\weights\best.pt")
+model = YOLO(r".\runs\detect\train16\weights\best.pt")
 model_conf = 0.6
 print("[INFO] Model classes:", model.names)
 

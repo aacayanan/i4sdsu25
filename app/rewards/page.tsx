@@ -1,60 +1,95 @@
 "use client";
 
 import Layout from "../components/Layout";
+import React, { useState } from 'react';
+import RewardItems from "../lib/rewardItems";
+import RewardConfirm from "../lib/rewardConfirm";
 
 export default function Rewards() {
-  return (
+
+const [ isModalOpen, setIsModalOpen ] = useState(false);
+const [ isConfirmed, setIsConfirmed ] = useState({id: null as number | null, title: ''});
+
+const handleAddClick = (id: number, title: string) => {
+  setIsConfirmed({ id, title });
+  setIsModalOpen(true);
+};
+
+  const handleConfirmAdd = () => {
+    if (isConfirmed.id !== null) {
+      alert(`✅ Confirmed adding: ${isConfirmed.title}`);
+      // Add logic here to actually process the reward addition (API call, state update, etc.)
+    }
+    closeModal();
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setIsConfirmed({ id: null, title: '' });
+  };
+
+
+  const sampleReward = [
+    {
+      id: 1,
+      icon: '/public/bcbLogo.png',
+      title: 'BCB Coffee',
+      rewardDescription:'Get 10% off any medium sized coffee/tea or pastries.'
+    },
+    {
+      id: 2,
+      icon: '/public/pandaLogo.png',
+      title: 'Panda Express',
+      rewardDescription: 'Get a free appetizer with any entree purchase.'
+    },
+    {
+      id: 3,
+      icon: '/public/starbucksLogo.png',
+      title: 'Starbucks',
+      rewardDescription: 'Earn double stars on your next purchase.'
+    },
+    {
+      id: 4,
+      icon: '/public/habitgrillLogo.png',
+      title: 'Habit Grill',
+      rewardDescription: 'Get a free side with any combo meal.'
+    }
+]
+
+    return (
     <Layout>
       <div className="flex justify-center pt-4">
         <div className="w-full max-w-2xl">
-          <div className="bg-white rounded-xl p-8 shadow-sm">
+          <div className="bg-white rounded-xl p-8 shadow-sm mb-4">
             <h1 className="text-3xl font-semibold text-gray-900 mb-4">
               Rewards
             </h1>
-            <p className="text-gray-600 leading-relaxed">
-              This page is a placeholder. Continue prompting to add content here.
-            </p>
           </div>
+          
+          {/* Use the new component here */}
           <div className="bg-white rounded-xl p-4 shadow-sm">
-
-            {/* Container for top + bottom */}
-            <div className="flex flex-col">
-              {/* TOP SECTION */}
-              <div className="top-container flex">
-                {/* Left square */}
-                <div className="sub-boxes w-20 h-20 bg-gray-200 rounded-tl-lg">
-                  ICON
-                </div>
-
-                {/* Right long bar */}
-                <div className="sub-boxes flex-1 bg-gray-100 rounded-tr-lg h-20">
-                  TITLE
-                </div>
+            { sampleReward.map((reward) => (
+              <div key={ reward.id } className="mb-4 last:mb-0">
+                <RewardItems
+                  icon={reward.icon}
+                  title={reward.title}
+                  rewardDescription={reward.rewardDescription}
+                  onAddClick={() => handleAddClick(reward.id, reward.title)}
+                />
               </div>
-
-              {/* MID SECTION */}
-              <div className="mid-container flex">
-                <div className="sub-boxes flex-1 bg-gray-100 rounded-br-lg h-20">
-                  DESCRIPTION
-                </div>
-              </div>
-              {/* END MID SECTION */}
-
-              {/* BOTTOM SECTION */}
-              <div className="bottom-container flex">
-                <div className="sub-boxes w-15 h-10 bg-gray-200 rounded-bl-lg">
-                  ADD
-                </div>
-                <div className="sub-boxes flex-1 bg-gray-100 rounded-br-lg h-10">
-                  REWARD DESCRIPTION
-                </div>
-              </div>
-              {/* END BOTTOM SECTION */}
-            </div>
-            {/* END Container for top + bottom */}
+            ))}
           </div>
         </div>
       </div>
+            
+      <RewardConfirm
+        isOpen={ isModalOpen }
+        onClose={ closeModal }
+        onConfirm={ handleConfirmAdd }
+        title="Confirmation Required"
+        itemName={ isConfirmed.title }
+      />
     </Layout>
-  )
+  );
 }

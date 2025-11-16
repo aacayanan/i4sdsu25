@@ -1,4 +1,6 @@
 import Layout from "./components/Layout";
+import React from 'react';
+import RewardItems from "./lib/rewardItems";
 
 export default function Home() {
   return (

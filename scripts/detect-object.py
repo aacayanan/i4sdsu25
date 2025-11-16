@@ -2,6 +2,16 @@ from ultralytics import YOLO
 import cv2
 import numpy as np
 from collections import deque
+from db_manager import init_db
+from config import SUPABASE_KEY, SUPABASE_URL
+
+# initialize supabase connection
+try:
+    db = init_db(SUPABASE_URL, SUPABASE_KEY)
+    print("[INFO] Database connected successfully")
+except Exception as e:
+    print(f"[WARNING] Database connection failed: {e}.")
+    db = None
 
 model = YOLO(r"C:\Users\aacay\Documents\Code\innovate4sdsu\scripts\runs\detect\train16\weights\best.pt")
 model_conf = 0.6
@@ -197,6 +207,13 @@ while True:
                 feedback_message = f"RECYCLABLE +5 POINTS"
 
             feedback_timer = FEEDBACK_DISPLAY_FRAMES
+
+            # === DATABASE CALL ===
+            if db and verdict == "Recycle":
+                try:
+                    db.update_user_points()
+                except Exception as e:
+                    print(f"[DB ERROR] {e}")
 
         # Clear history after extended absence
         if no_detection_count > DISAPPEAR_THRESHOLD + 15:

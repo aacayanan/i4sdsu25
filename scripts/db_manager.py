@@ -1,5 +1,4 @@
 from supabase import create_client, Client
-from typing import Optional, Dict
 import os
 
 
@@ -11,22 +10,25 @@ class RecyclingDB:
     def update_user_points(self, user_id: str = 'a3c2e9d1-5fd8-4f3a-8c6e-0b7f2c4d9b22', points_to_add: int = 5):
         """Add points to user's total."""
         # Get current points
-        user = self.client.table("trash_table").select("total_points").execute()
+        user = self.client.table("trash_total").select("total_points").eq("user_id", user_id).execute()
 
         if user.data:
             current_points = user.data[0].get("total_points", 0)
             new_total = current_points + points_to_add
+            print(f"[INFO] CURRENT POINTS: {current_points}")
+            print(f"[INFO] NEW TOTAL POINTS: {new_total}")
         else:
             # Create new user if doesn't exist
             new_total = points_to_add
-            self.client.table("users").insert({
+            self.client.table("trash_total").insert({
                 "user_id": user_id,
                 "total_points": new_total,
+                "recycled": 0,
             }).execute()
             return
 
         # Update points
-        self.client.table("users").update({
+        self.client.table("trash_total").update({
             "total_points": new_total
         }).eq("user_id", user_id).execute()
 
